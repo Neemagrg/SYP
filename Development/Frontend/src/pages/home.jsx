@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FiUser } from "react-icons/fi";
+
 
 function Home() {
+  const [openChat, setOpenChat] = useState(false);
   return (
     <>
       {/* CSS inside component */}
       <style>{`
-        body {
+        html, body, #root{
+          height: 100%;
+          width: 100%;
           margin: 0;
+          padding: 0;
           font-family: Arial, sans-serif;
         }
 
@@ -29,7 +36,7 @@ function Home() {
         display: flex;
         gap: 30px;
         position: absolute;
-        left: 70%;
+        left: 65%;
         transform: translateX(-50%);
         }
 
@@ -39,10 +46,30 @@ function Home() {
         font-weight: bold;
         }
 
+        .profile-icon {
+  margin-left: auto;
+  font-size: 22px;
+  color: white;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.profile-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
         .hero {
           text-align: center;
           padding: 80px 20px;
           background: #ffe6d5;
+
         }
 
         .hero h1 {
@@ -92,6 +119,86 @@ function Home() {
           background: #fff3f3;
         }
 
+
+        /* Floating Chat Button */
+.chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ff914d;
+  color: white;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+/* Chat Box */
+.chat-box {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 300px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+/* Header */
+.chat-header {
+  background: #ff914d;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* Body */
+.chat-body {
+  padding: 15px;
+  height: 150px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+/* Footer */
+.chat-footer {
+  display: flex;
+  border-top: 1px solid #eee;
+}
+
+.chat-footer input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+
+.chat-footer button {
+  background: #ff914d;
+  border: none;
+  color: white;
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+
         .footer {
           background: #333;
           color: white;
@@ -104,12 +211,17 @@ function Home() {
       <nav className="navbar">
         <h2>StrayHaven</h2>
         <div className="nav-links">
-          <a href="#">Home</a>
-          <a href="#">Adopt</a>
+           <Link to="/">Home</Link>
+           <Link to="/adopt">Adopt</Link>
           <a href="#">Rescue</a>
           <a href="#">Support</a>
           <a href="#">Blog</a>
           <a href="#">About&Contact</a>
+          <input className="search-bar" type="text" placeholder="Search animals..." />
+        </div>
+        
+        <div className="profile-icon">
+          <FiUser />
         </div>
       </nav>
 
@@ -118,9 +230,9 @@ function Home() {
         <h1>A Safe Haven For Every Street Soul</h1>
         <p>Rescue, Heal and Rehome Stray Animals</p>
 
-        <button className="btn">Dog</button>
-        <button className="btn">Cat</button>
-        <button className="btn">Other Animals</button>
+        <button className="btn">🐶Dog</button>
+        <button className="btn">🐱Cat</button>
+        <button className="btn">🐾Other Animals</button>
       </section>
 
       {/* Featured Animals */}
@@ -154,6 +266,30 @@ function Home() {
         <p>Report injured animals and help us respond faster.</p>
         <button className="btn">Report Emergency</button>
       </section>
+
+        {/* Floating Chat Button */}
+<div className="chat-button" onClick={() => setOpenChat(!openChat)}>
+  💬
+</div>
+
+{/* Chat Box */}
+{openChat && (
+  <div className="chat-box">
+    <div className="chat-header">
+      <span>StrayHaven Support</span>
+      <button onClick={() => setOpenChat(false)}>✖</button>
+    </div>
+
+    <div className="chat-body">
+      <p>Hello 👋 How can we help you?</p>
+    </div>
+
+    <div className="chat-footer">
+      <input type="text" placeholder="Type a message..." />
+      <button>Send</button>
+    </div>
+  </div>
+)}
 
       {/* Footer */}
       <footer className="footer">
